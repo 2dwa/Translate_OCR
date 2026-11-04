@@ -8,14 +8,15 @@ Windows 本地截图识别与翻译工作台。界面采用浅色、圆角卡片
 
 ## 使用
 
-新电脑推荐从 [Releases](https://github.com/2dwa/MI_OCR/releases/latest) 下载 **`MiOCRDesk-0.3.3-win-x64-offline.zip`**，用 `SHA256SUMS-OFFLINE.txt` 核验后完整解压到可写目录，双击 **`MiOcrDesk.exe`**。程序自动发现随包模型，首次截图时启动引擎并加载；无需运行 CMD 下载，也无需安装 Python、.NET 或 Ollama。
+从 [Releases](https://github.com/2dwa/MI_OCR/releases/latest) 分别下载 **`MiOCRDesk-0.3.3-win-x64-app.zip`（软件）** 和 **`MiOCRDesk-0.3.3-win-x64-models.zip`（模型）**，用 `SHA256SUMS-OFFLINE.txt` 核验。将两个 ZIP 解压到**同一个可写目录**，确保 `MiOcrDesk.exe` 与 `OcrRuntime` 文件夹并排，再双击 EXE。首次截图时自动启动引擎并加载模型，无需运行 CMD 下载，也无需安装 Python、.NET 或 Ollama。
 
 | 下载包 | 内容与适用情况 |
 | --- | --- |
-| `offline.zip`（约 2.14 GB） | 完整 BF16 模型、Ollama、.NET、CPU 与 CUDA 13；解压即用，推荐新电脑使用。 |
+| `app.zip`（约 72 MB） | 桌面程序、.NET 与双语说明，不含 OCR 模型。 |
+| `models.zip`（约 2.07 GB） | 完整 BF16 模型、Ollama、CPU 与 CUDA 13，不含桌面程序。 |
 | `portable.zip`（约 72 MB） | 小体积程序与下载助手，不含模型和 Ollama；适合已有模型的电脑，或先运行 `Setup-OCR.cmd` 在线安装（约下载 3.4 GB，预留 8 GB 空间）。校验文件为 `SHA256SUMS.txt`。 |
 
-系统要求 Windows 10 2004+ / Windows 11 x64，建议至少 8 GB 内存。离线 ZIP 加解压目录建议预留 6 GB 空间；不要只移动 EXE 或直接在 ZIP 中运行。为满足 GitHub 单个附件小于 2 GiB 的限制，离线包保留全部 CPU 变体和 CUDA 13，未包含 CUDA 12/Vulkan；模型权重完整且未经修改。不支持 CUDA 13 的显卡或驱动使用 CPU，速度可能较慢。OCR 首次使用即可离线，翻译仍需自行配置 API 并联网。详见[完整离线包说明](docs/OFFLINE.md)。
+**软件与模型分开压缩、分开上传，不提供合并包。** 以后只更新软件时保留 `OcrRuntime` 即可，无需重复下载模型。系统要求 Windows 10 2004+ / Windows 11 x64，建议至少 8 GB 内存。两个 ZIP 加解压目录建议预留 6 GB 空间；不要直接在 ZIP 中运行。模型包采用 CPU + CUDA 13 配置，保留全部 CPU 变体，未包含其他可选 CUDA 12/Vulkan 后端；权重完整且未经修改。不支持 CUDA 13 的显卡或驱动使用 CPU，速度可能较慢。OCR 首次使用即可离线，翻译仍需自行配置 API 并联网。详见[分包解压说明](docs/OFFLINE.md)。
 
 已有安装若保存了旧模型路径，请在「本地模型」选择本包的 `OcrRuntime` 后「检测并启动」。用户设置和 API Key 不包含在分发包中。
 
@@ -32,7 +33,7 @@ Windows 本地截图识别与翻译工作台。界面采用浅色、圆角卡片
 | Ollama 0.40.14 | [ollama/ollama](https://github.com/ollama/ollama/tree/v0.40.14) | [MIT](licenses/Ollama-LICENSE.txt)，其依赖保留各自许可 |
 | .NET 10 / WPF / Windows Forms | Microsoft / .NET contributors | MIT 及所附第三方许可，见 [第三方声明](THIRD_PARTY_NOTICES.md) |
 
-项目署名仅适用于桌面程序，不替代模型、运行时与依赖的原作者署名。本项目是独立集成应用，不是小米、阿里、Ollama 或 OpenAI 官方产品。完整许可、第三方声明及模型来源清单随源码和两种发布包一并提供，见 [NOTICE](NOTICE)、[第三方声明](THIRD_PARTY_NOTICES.md)、[固定来源与摘要](tools/runtime-sources.json)。模型权重、Ollama 二进制、API Key、用户设置和本机缓存不提交到 Git 仓库。完整离线 Release 包附带模型及运行库；CUDA 与 Microsoft 运行库分别适用各自许可，见[运行库许可来源](licenses/runtime/SOURCES.md)，不统一归为 Apache-2.0。
+项目署名仅适用于桌面程序，不替代模型、运行时与依赖的原作者署名。本项目是独立集成应用，不是小米、阿里、Ollama 或 OpenAI 官方产品。完整许可、第三方声明及模型来源清单随源码和两个独立发布包一并提供，见 [NOTICE](NOTICE)、[第三方声明](THIRD_PARTY_NOTICES.md)、[固定来源与摘要](tools/runtime-sources.json)。模型权重、Ollama 二进制、API Key、用户设置和本机缓存不提交到 Git 仓库。离线模型 ZIP 附带模型及运行库；CUDA 与 Microsoft 运行库分别适用各自许可，见[运行库许可来源](licenses/runtime/SOURCES.md)，不统一归为 Apache-2.0。
 
 ## 功能
 

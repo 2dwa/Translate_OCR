@@ -2,6 +2,8 @@
 
 ## 0.3.3 — 2026-11-04
 
+- Add separately downloadable software and offline model ZIPs; extract both into the same directory for offline OCR without CMD downloads. Preserve the model directory across app updates.
+- 新增软件与模型独立 ZIP，各自压缩、各自上传；两个包解压到同一目录即可离线识别，不提供合并包。
 - Prepare the public MI_OCR repository and first GitHub Release; project attribution: GPT-6 ASTRA.
 - Add English/Chinese READMEs, Apache-2.0, upstream model provenance and third-party licenses/notices.
 - Add pinned, checksum-verified model/runtime setup and reproducible portable-release packaging.

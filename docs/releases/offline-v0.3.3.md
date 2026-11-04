@@ -1,10 +1,15 @@
-<!-- offline-bundle -->
-## 新增完整离线包 / Complete offline ZIP added
+<!-- offline-packages -->
+## 软件与离线模型分开下载 / Separate software and offline model downloads
 
-**新电脑推荐下载 `MiOCRDesk-0.3.3-win-x64-offline.zip`（约 2.14 GB）。完整解压后直接运行 `MiOcrDesk.exe`，无需 CMD 下载或额外安装。**
+| 下载 / Download | 内容 / Contents |
+| --- | --- |
+| **`MiOCRDesk-0.3.3-win-x64-app.zip`** (~72 MB) | 软件 + .NET / Desktop app + .NET |
+| **`MiOCRDesk-0.3.3-win-x64-models.zip`** (~2.07 GB) | 完整 OCR 模型 + Ollama / Complete OCR model + Ollama |
 
-内含完整 Xiaomi OCR BF16 模型、Ollama 和 .NET，支持离线截图识别。保留 CPU 与 CUDA 13；不含 CUDA 12/Vulkan，显卡或驱动不兼容时使用 CPU。翻译需要自行配置 API 并联网。使用 `SHA256SUMS-OFFLINE.txt` 校验；包内 `README-OFFLINE.md` 提供中英说明，所有原作者署名与第三方许可均保留。
+**两个 ZIP 分别下载、解压到同一目录，确保 `MiOcrDesk.exe` 与 `OcrRuntime` 并排，然后运行 EXE 即可，无需 CMD 下载。没有合并上传包。** 以后仅更新软件可保留模型目录。用 `SHA256SUMS-OFFLINE.txt` 校验两个文件。
 
-**For a new PC, download `MiOCRDesk-0.3.3-win-x64-offline.zip` (~2.14 GB), extract everything, and run `MiOcrDesk.exe`. No CMD setup or additional downloads are needed.** Includes the complete BF16 model, Ollama, .NET, CPU and CUDA 13 backends. CUDA 12/Vulkan are omitted; incompatible GPUs/drivers use CPU. Translation still needs your own API configuration and internet. Verify with `SHA256SUMS-OFFLINE.txt`.
+模型包保留完整 BF16 权重、CPU 与 CUDA 13；不含 CUDA 12/Vulkan，显卡或驱动不兼容时使用 CPU。翻译需要自行配置 API 并联网。双语说明与原作者署名、第三方许可随各包提供。
 
-The smaller `portable.zip` below remains available for users with an existing model installation or those who prefer online setup. / 下方小体积 `portable.zip` 继续保留，适合已有模型或使用在线安装的用户。
+**Download both ZIPs separately and extract them into the same directory. `MiOcrDesk.exe` and `OcrRuntime` must be side by side. Run the EXE; no CMD setup or further downloads are needed. No combined archive is uploaded.** Keep the model directory when updating only the app. Verify both files with `SHA256SUMS-OFFLINE.txt`. The model package includes complete BF16 weights, CPU and CUDA 13; optional CUDA 12/Vulkan are omitted. Translation needs your own API configuration and internet. Original licenses and bilingual instructions accompany each package.
+
+The original `portable.zip` below is retained as the initial online-setup distribution. / 下方原始 `portable.zip` 保留，属于最初提供下载助手的版本；新电脑请使用上面两个分开的包。

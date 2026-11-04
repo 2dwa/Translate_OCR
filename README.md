@@ -8,19 +8,20 @@ A Windows desktop OCR and translation app built with .NET 10 and WPF. It uses a 
 
 ## Quick start
 
-1. For a new computer, download **`MiOCRDesk-0.3.3-win-x64-offline.zip`** from [Releases](https://github.com/2dwa/MI_OCR/releases/latest), verify it against `SHA256SUMS-OFFLINE.txt`, and extract the entire ZIP to a writable folder.
-2. Open **MiOcrDesk.exe**. The bundled model is discovered automatically and loads on first capture. No CMD setup or extra download is needed. Allow 6 GB of free disk space for the ZIP and extracted files.
+1. Download **`MiOCRDesk-0.3.3-win-x64-app.zip`** and **`MiOCRDesk-0.3.3-win-x64-models.zip`** separately from [Releases](https://github.com/2dwa/MI_OCR/releases/latest). Verify both with `SHA256SUMS-OFFLINE.txt` and extract both into the **same writable directory**, so `MiOcrDesk.exe` and `OcrRuntime` are side by side.
+2. Open **MiOcrDesk.exe**. The adjacent model is discovered automatically and loads on first capture. No CMD setup or additional download is needed. Allow 6 GB free space for the downloads and extracted files. Keep `OcrRuntime` when updating only the app.
 3. If upgrading with an old saved model path, select this package's `OcrRuntime` under **本地模型** (Local model), then **检测并启动** (Detect and start).
 4. Press **Ctrl + Alt + O** to capture and recognize, or **Ctrl + Alt + T** to capture, recognize and translate. Configure your translation API first in **偏好设置** (Preferences).
 
-Requires Windows 10 2004+ / Windows 11, x64; at least 8 GB RAM is recommended. The app includes .NET; Python and a system-wide Ollama installation are not required. The complete package works offline for OCR from its first launch; translation needs access to the selected provider. The interface currently uses Chinese labels. Release binaries are not Authenticode-signed.
+Requires Windows 10 2004+ / Windows 11, x64; at least 8 GB RAM is recommended. The app includes .NET; Python and a system-wide Ollama installation are not required. After extracting both packages, OCR works offline from its first launch; translation needs access to the selected provider. The interface currently uses Chinese labels. Release binaries are not Authenticode-signed.
 
 | Download | Contents / use |
 | --- | --- |
-| `offline.zip` (~2.14 GB) | Complete BF16 model, Ollama, .NET, CPU and CUDA 13. Extract and run; recommended for a new PC. |
+| `app.zip` (~72 MB) | Desktop app, .NET and bilingual instructions; no OCR model. |
+| `models.zip` (~2.07 GB) | Complete BF16 model, Ollama, CPU and CUDA 13; no desktop app. Extract beside the app. |
 | `portable.zip` (~72 MB) | App and setup helper, without model/runtime. Reuse an existing model or run `Setup-OCR.cmd` once (about 3.4 GB of downloads; allow 8 GB free space). Verify with `SHA256SUMS.txt`. |
 
-To fit GitHub's 2 GiB per-asset limit, the offline ZIP omits optional CUDA 12 and Vulkan backends. It preserves the complete model and all CPU variants. Compatible NVIDIA GPUs/drivers use CUDA 13; other systems use CPU. See the [bilingual offline guide](docs/OFFLINE.md). Exit an old instance from its tray menu before upgrading.
+Software and models are compressed and uploaded separately; no combined archive is provided. The model ZIP selects CPU + CUDA 13 and omits other optional CUDA 12/Vulkan backends. It preserves the complete model and all CPU variants. Compatible NVIDIA GPUs/drivers use CUDA 13; other systems use CPU. See the [bilingual offline guide](docs/OFFLINE.md). Exit an old instance from its tray menu before upgrading.
 
 ## Features
 
@@ -49,7 +50,7 @@ Capture-and-translate is one cancellable operation. Cancelled/failed OCR and emp
 
 **GPT-6 ASTRA is the attribution for this desktop project, not the author of the OCR model or third-party runtimes.** This is an independent integration, not an official Xiaomi, Alibaba, Ollama or OpenAI product. Upstream copyright and license notices remain intact. See [NOTICE](NOTICE), [THIRD_PARTY_NOTICES.md](THIRD_PARTY_NOTICES.md), [licenses/](licenses/) and the [pinned source manifest](tools/runtime-sources.json).
 
-No model weights, upstream demo checkout, Ollama binaries, API keys, user settings or local development caches are committed to this repository. The offline Release asset includes pinned, unmodified model blobs and selected upstream runtime backends, together with their notices. CUDA and Microsoft runtime libraries retain their own terms; see [runtime license sources](licenses/runtime/SOURCES.md). Keep all license and notice files when redistributing a populated offline folder.
+No model weights, upstream demo checkout, Ollama binaries, API keys, user settings or local development caches are committed to this repository. The separate model Release asset includes pinned, unmodified model blobs and selected upstream runtime backends, together with their notices. CUDA and Microsoft runtime libraries retain their own terms; see [runtime license sources](licenses/runtime/SOURCES.md). Keep all license and notice files when redistributing either package.
 
 ## Build and develop
 
@@ -71,7 +72,7 @@ Build the same portable release locally:
 powershell -NoProfile -ExecutionPolicy Bypass -File tools/build-release.ps1
 ```
 
-Outputs are in `dist/releases`. A `v*` tag triggers CI tests followed by a Windows x64 self-contained ZIP and a GitHub Release with SHA256 checksums. An `offline-v*` tag runs the supplemental offline workflow: verify the existing portable release, download and verify pinned components, package the offline ZIP, extract it and run a real CPU OCR check, then attach it to the same release. The optional Inno Setup script in `installer/` needs Inno Setup 6+.
+Outputs are in `dist/releases`. A `v*` tag triggers CI tests followed by a Windows x64 self-contained ZIP and a GitHub Release with SHA256 checksums. An `offline-v*` tag runs the supplemental offline workflow: verify the existing portable release, download and verify pinned components, create separate app/model ZIPs, extract both and run a real CPU OCR check, then upload the two files independently to the same release. The optional Inno Setup script in `installer/` needs Inno Setup 6+.
 
 To package existing local model files without downloading them again:
 
@@ -79,7 +80,7 @@ To package existing local model files without downloading them again:
 powershell -NoProfile -ExecutionPolicy Bypass -File tools/build-offline-release.ps1 -PortableZip dist/releases/MiOCRDesk-0.3.3-win-x64-portable.zip -PortableChecksums dist/releases/SHA256SUMS.txt -RuntimeRoot OcrRuntime
 ```
 
-Use a new output directory if the offline ZIP already exists. The builder validates all model hashes, copies only the pinned model and required runtime files, retains licenses, and writes both a ZIP checksum and a per-file inventory. `RuntimeRoot` must contain `runtime/` and `models/`. `tools/test-offline-bundle.ps1 -BundleDirectory <extracted-folder> -ForceCpu` tests the extracted runtime without opening or automating the desktop app.
+Use a new output directory if either output ZIP already exists. The builder validates all model hashes, isolates software from models, retains licenses in each package, and writes archive checksums and separate per-file inventories. `RuntimeRoot` must contain `runtime/` and `models/`. `tools/test-offline-bundle.ps1 -BundleDirectory <folder-with-both-extracted> -ForceCpu` tests the extracted runtime without opening or automating the desktop app.
 
 ```text
 MiOcrDesk/          WPF application

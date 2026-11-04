@@ -1,6 +1,6 @@
 # Runtime license sources
 
-The offline ZIP retains the original `GO_LICENSE`, `LLAMA_CPP_LICENSE`,
+The separate model ZIP retains the original `GO_LICENSE`, `LLAMA_CPP_LICENSE`,
 `LLAMA_CPP_VENDORS_LICENSE` and `CPP_HTTPLIB_LICENSE` alongside the unmodified
 Ollama 0.40.14 libraries. The following supplemental notices accompany the
 CPU/CUDA 13 libraries. They do not change the licenses of those libraries.

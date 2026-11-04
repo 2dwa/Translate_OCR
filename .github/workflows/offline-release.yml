@@ -51,25 +51,26 @@ jobs:
       - name: Download pinned runtime and model with SHA256 verification
         shell: pwsh
         run: ./tools/install-ocr-runtime.ps1 -Destination .cache/offline-source
-      - name: Package complete offline ZIP
+      - name: Package software and model as separate ZIPs
         shell: pwsh
         run: ./tools/build-offline-release.ps1 -PortableZip ".cache/portable/MiOCRDesk-$env:RELEASE_VERSION-win-x64-portable.zip" -PortableChecksums .cache/portable/SHA256SUMS.txt -RuntimeRoot .cache/offline-source
-      - name: Extract and test actual packaged model on CPU
+      - name: Extract both packages and test actual model on CPU
         shell: pwsh
         run: |
           $ErrorActionPreference = 'Stop'
           Add-Type -AssemblyName System.IO.Compression.FileSystem
-          [IO.Compression.ZipFile]::ExtractToDirectory("$PWD/dist/releases/MiOCRDesk-$env:RELEASE_VERSION-win-x64-offline.zip", "$PWD/.cache/offline-check")
+          [IO.Compression.ZipFile]::ExtractToDirectory("$PWD/dist/releases/MiOCRDesk-$env:RELEASE_VERSION-win-x64-app.zip", "$PWD/.cache/offline-check")
+          [IO.Compression.ZipFile]::ExtractToDirectory("$PWD/dist/releases/MiOCRDesk-$env:RELEASE_VERSION-win-x64-models.zip", "$PWD/.cache/offline-check")
           ./tools/test-offline-bundle.ps1 -BundleDirectory .cache/offline-check -ForceCpu
-      - name: Attach offline package and update release notes
+      - name: Upload separate software and model packages
         shell: pwsh
         run: |
           $ErrorActionPreference = 'Stop'
-          gh release upload $env:RELEASE_TAG "dist/releases/MiOCRDesk-$env:RELEASE_VERSION-win-x64-offline.zip" dist/releases/SHA256SUMS-OFFLINE.txt
+          gh release upload $env:RELEASE_TAG "dist/releases/MiOCRDesk-$env:RELEASE_VERSION-win-x64-app.zip" "dist/releases/MiOCRDesk-$env:RELEASE_VERSION-win-x64-models.zip" dist/releases/SHA256SUMS-OFFLINE.txt
           if ($LASTEXITCODE -ne 0) { throw 'Offline asset upload failed; existing assets are never overwritten.' }
           $release = gh release view $env:RELEASE_TAG --json body | ConvertFrom-Json
           if ($LASTEXITCODE -ne 0) { throw 'Could not read release notes.' }
-          $marker = '<!-- offline-bundle -->'
+          $marker = '<!-- offline-packages -->'
           if (-not $release.body.Contains($marker)) {
             $extra = Get-Content "docs/releases/offline-$env:RELEASE_TAG.md" -Raw
             [IO.File]::WriteAllText("$PWD/.cache/offline-release-notes.md", "$extra`n`n$($release.body)", [Text.UTF8Encoding]::new($false))

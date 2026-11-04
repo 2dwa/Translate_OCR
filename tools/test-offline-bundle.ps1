@@ -5,17 +5,20 @@ param(
 )
 $ErrorActionPreference = 'Stop'
 $bundle = (Resolve-Path -LiteralPath $BundleDirectory).Path
-$inventory = Join-Path $bundle 'OFFLINE-CONTENTS.sha256'
-$entries = @(Get-Content -LiteralPath $inventory -Encoding UTF8)
-foreach ($entry in $entries) {
-    if ($entry -notmatch '^([a-f0-9]{64})  (.+)$') { throw 'Invalid offline file inventory.' }
-    $expectedHash = $Matches[1]
-    $path = [IO.Path]::GetFullPath((Join-Path $bundle $Matches[2]))
-    if (-not $path.StartsWith($bundle.TrimEnd('\') + '\', [StringComparison]::OrdinalIgnoreCase)) { throw 'Unsafe inventory path.' }
-    if ((Get-FileHash -LiteralPath $path -Algorithm SHA256).Hash -ne $expectedHash) { throw "Offline file checksum mismatch: $path" }
+$verified = 0
+foreach ($inventory in @(@{ Root = $bundle; Name = 'APP-CONTENTS.sha256' }, @{ Root = (Join-Path $bundle 'OcrRuntime'); Name = 'MODEL-CONTENTS.sha256' })) {
+    $entries = @(Get-Content -LiteralPath (Join-Path $inventory.Root $inventory.Name) -Encoding UTF8)
+    foreach ($entry in $entries) {
+        if ($entry -notmatch '^([a-f0-9]{64})  (.+)$') { throw 'Invalid offline file inventory.' }
+        $expectedHash = $Matches[1]
+        $path = [IO.Path]::GetFullPath((Join-Path $inventory.Root $Matches[2]))
+        if (-not $path.StartsWith($inventory.Root.TrimEnd('\') + '\', [StringComparison]::OrdinalIgnoreCase)) { throw 'Unsafe inventory path.' }
+        if ((Get-FileHash -LiteralPath $path -Algorithm SHA256).Hash -ne $expectedHash) { throw "Offline file checksum mismatch: $path" }
+    }
+    $verified += $entries.Count
 }
-if (@(Get-ChildItem -LiteralPath $bundle -File -Recurse).Count -ne $entries.Count + 1) { throw 'Unexpected files in offline package.' }
-Write-Host "Verified $($entries.Count) packaged files."
+if (@(Get-ChildItem -LiteralPath $bundle -File -Recurse).Count -ne $verified + 2) { throw 'Unexpected files in offline packages.' }
+Write-Host "Verified $verified packaged files from both archives."
 $runtimeRoot = Join-Path $bundle 'OcrRuntime'
 & "$PSScriptRoot\install-ocr-runtime.ps1" -Destination $runtimeRoot -VerifyOnly
 $baseUrl = "http://127.0.0.1:$Port"
