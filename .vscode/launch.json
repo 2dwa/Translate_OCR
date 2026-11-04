@@ -2,19 +2,19 @@
   "version": "0.2.0",
   "configurations": [
     {
-      "name": "Mi OCR Desk (system .NET SDK)",
+      "name": "Translate (system .NET SDK)",
       "type": "coreclr",
       "request": "launch",
       "preLaunchTask": "Win App: Build",
-      "program": "${workspaceFolder}/MiOcrDesk/bin/Debug/net10.0-windows/win-x64/MiOcrDesk.exe",
+      "program": "${workspaceFolder}/Translate/bin/Debug/net10.0-windows/win-x64/Translate.exe",
       "cwd": "${workspaceFolder}"
     },
     {
-      "name": "Mi OCR Desk (local .dotnet SDK)",
+      "name": "Translate (local .dotnet SDK)",
       "type": "coreclr",
       "request": "launch",
       "preLaunchTask": "Win App: Build",
-      "program": "${workspaceFolder}/MiOcrDesk/bin/Debug/net10.0-windows/win-x64/MiOcrDesk.exe",
+      "program": "${workspaceFolder}/Translate/bin/Debug/net10.0-windows/win-x64/Translate.exe",
       "cwd": "${workspaceFolder}",
       "env": { "DOTNET_ROOT": "${workspaceFolder}/.dotnet" }
     }

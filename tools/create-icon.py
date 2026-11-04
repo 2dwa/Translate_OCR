@@ -17,6 +17,6 @@ for points in (
         draw.ellipse((x - 6, y - 6, x + 6, y + 6), fill="white")
 draw.rounded_rectangle((91, 105, 165, 117), radius=6, fill="white")
 draw.rounded_rectangle((91, 139, 146, 151), radius=6, fill="#B8DCFF")
-target = root / "MiOcrDesk" / "Assets"
+target = root / "Translate" / "Assets"
 target.mkdir(parents=True, exist_ok=True)
 image.save(target / "App.ico", sizes=[(16, 16), (24, 24), (32, 32), (48, 48), (64, 64), (128, 128), (256, 256)])

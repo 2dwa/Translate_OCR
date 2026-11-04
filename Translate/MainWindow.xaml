@@ -1,0 +1,85 @@
+<Window x:Class="Translate.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:shell="clr-namespace:System.Windows.Shell;assembly=PresentationFramework" xmlns:local="clr-namespace:Translate"
+        Title="Translate" Width="1220" Height="800" MinWidth="1000" MinHeight="680"
+        WindowStyle="None" WindowStartupLocation="CenterScreen" AllowDrop="True" Drop="Window_Drop" DragOver="Window_DragOver">
+  <shell:WindowChrome.WindowChrome><shell:WindowChrome CaptionHeight="48" ResizeBorderThickness="6" CornerRadius="16" GlassFrameThickness="0" UseAeroCaptionButtons="False"/></shell:WindowChrome.WindowChrome>
+  <Border BorderBrush="#DDE2EA" BorderThickness="1"><Grid>
+    <Grid.ColumnDefinitions><ColumnDefinition Width="210"/><ColumnDefinition Width="*"/></Grid.ColumnDefinitions>
+    <Border Background="#FAFBFD" BorderBrush="{StaticResource Line}" BorderThickness="0,0,1,0">
+      <Grid Margin="20,24,20,22">
+        <Grid.RowDefinitions><RowDefinition Height="Auto"/><RowDefinition Height="56"/><RowDefinition Height="Auto"/><RowDefinition Height="*"/><RowDefinition Height="Auto"/></Grid.RowDefinitions>
+        <StackPanel Orientation="Horizontal">
+          <Border Width="42" Height="42" CornerRadius="13" Background="{StaticResource Accent}"><TextBlock Style="{StaticResource Icon}" Foreground="White" FontSize="24" Text="&#xE8A7;"/></Border>
+          <StackPanel Margin="12,0,0,0" VerticalAlignment="Center"><TextBlock Text="Translate" FontSize="19" FontWeight="Bold"/><TextBlock Text="TEXT WORKSPACE" Foreground="#99A2B2" FontSize="10" Margin="1,2,0,0"/></StackPanel>
+        </StackPanel>
+        <StackPanel Grid.Row="2">
+          <TextBlock Text="工作空间" Style="{StaticResource Muted}" Margin="16,0,0,12"/>
+          <RadioButton x:Name="TranslationNav" Style="{StaticResource Navigation}" IsChecked="True" GroupName="Navigation" Checked="TranslationNav_Checked"><StackPanel Orientation="Horizontal"><TextBlock Style="{StaticResource Icon}" Text="&#xE8C1;" Margin="0,0,13,0"/><TextBlock Text="翻译"/></StackPanel></RadioButton>
+          <RadioButton x:Name="WorkspaceNav" Style="{StaticResource Navigation}" GroupName="Navigation" Checked="WorkspaceNav_Checked"><StackPanel Orientation="Horizontal"><TextBlock Style="{StaticResource Icon}" Text="&#xE8A7;" Margin="0,0,13,0"/><TextBlock Text="截图识别"/></StackPanel></RadioButton>
+          <RadioButton x:Name="ModelNav" Style="{StaticResource Navigation}" GroupName="Navigation" Checked="ModelNav_Checked"><StackPanel Orientation="Horizontal"><TextBlock Style="{StaticResource Icon}" Text="&#xE950;" Margin="0,0,13,0"/><TextBlock Text="本地模型"/></StackPanel></RadioButton>
+          <RadioButton x:Name="SettingsNav" Style="{StaticResource Navigation}" GroupName="Navigation" Checked="SettingsNav_Checked"><StackPanel Orientation="Horizontal"><TextBlock Style="{StaticResource Icon}" Text="&#xE713;" Margin="0,0,13,0"/><TextBlock Text="软件设置" FontSize="14"/></StackPanel></RadioButton>
+          <RadioButton x:Name="ApiSettingsNav" Style="{StaticResource Navigation}" GroupName="Navigation" Checked="ApiSettingsNav_Checked"><StackPanel Orientation="Horizontal"><TextBlock Style="{StaticResource Icon}" Text="&#xE774;" Margin="0,0,13,0"/><TextBlock Text="API 设置"/></StackPanel></RadioButton>
+        </StackPanel>
+        <StackPanel Grid.Row="4">
+          <Border Background="#EFF4FC" CornerRadius="14" Padding="15" Margin="0,0,0,20"><StackPanel><TextBlock Style="{StaticResource Icon}" Text="&#xE72E;" HorizontalAlignment="Left" Foreground="#6C8EBB" Margin="0,0,0,10"/><TextBlock Text="留在本机，安心识别" FontSize="12" FontWeight="SemiBold"/><TextBlock Text="截图由本地模型处理。&#x0a;仅翻译时连接所选服务。" Style="{StaticResource Muted}" Margin="0,7,0,0" FontSize="11" LineHeight="19"/></StackPanel></Border>
+          <StackPanel Orientation="Horizontal"><Ellipse Width="7" Height="7" Fill="{Binding RuntimeBrush}" Margin="3,0,8,0"/><TextBlock Text="{Binding RuntimeStatus}" FontSize="11" Foreground="{StaticResource Secondary}"/></StackPanel>
+          <TextBlock Text="Translate  /  0.4.1" FontSize="10" Foreground="#A6AEBC" Margin="3,10,0,0"/>
+          <TextBlock Text="GPT-6 ASTRA" FontSize="10" Foreground="#A6AEBC" Margin="3,6,0,0"/>
+        </StackPanel>
+      </Grid>
+    </Border>
+    <Grid Grid.Column="1">
+      <Grid.RowDefinitions><RowDefinition Height="48"/><RowDefinition Height="*"/></Grid.RowDefinitions>
+      <DockPanel Margin="30,0,12,0">
+        <StackPanel DockPanel.Dock="Right" Orientation="Horizontal" shell:WindowChrome.IsHitTestVisibleInChrome="True">
+          <Button Style="{StaticResource Quiet}" Width="40" Click="Minimize_Click" ToolTip="最小化" AutomationProperties.Name="最小化"><TextBlock Style="{StaticResource Icon}" FontSize="12" Text="&#xE921;"/></Button>
+          <Button Style="{StaticResource Quiet}" Width="40" Click="Maximize_Click" ToolTip="最大化 / 还原" AutomationProperties.Name="最大化"><TextBlock Style="{StaticResource Icon}" FontSize="12" Text="&#xE922;"/></Button>
+          <Button Style="{StaticResource Quiet}" Width="40" Click="Close_Click" ToolTip="关闭" AutomationProperties.Name="关闭"><TextBlock Style="{StaticResource Icon}" FontSize="12" Text="&#xE8BB;"/></Button>
+        </StackPanel><TextBlock Text="Translate · 你的桌面翻译助手" FontSize="11" Foreground="#A2AABA"/>
+      </DockPanel>
+      <Grid Grid.Row="1" Margin="30,12,30,26">
+        <Grid.RowDefinitions><RowDefinition Height="*"/><RowDefinition Height="Auto"/></Grid.RowDefinitions>
+        <Grid x:Name="TranslationPage">
+          <Grid.RowDefinitions><RowDefinition Height="Auto"/><RowDefinition Height="*"/></Grid.RowDefinitions>
+          <DockPanel Margin="0,0,0,22"><Button DockPanel.Dock="Right" Content="打开输入悬浮窗" Click="QuickTranslation_Click" VerticalAlignment="Center"/><StackPanel><TextBlock Text="让表达，跨越语言。" FontSize="29" FontWeight="Bold"/><TextBlock Text="输入或粘贴文字，使用你设置的模型与提示词翻译。" Style="{StaticResource Muted}" Margin="0,9,0,0"/></StackPanel></DockPanel>
+          <local:TranslationEditor x:Name="TextTranslation" Grid.Row="1"/>
+        </Grid>
+        <Grid x:Name="WorkspacePage" Visibility="Collapsed">
+          <Grid.RowDefinitions><RowDefinition Height="Auto"/><RowDefinition Height="Auto"/><RowDefinition Height="*"/></Grid.RowDefinitions>
+          <Grid Margin="0,0,0,23"><Grid.ColumnDefinitions><ColumnDefinition Width="*"/><ColumnDefinition Width="Auto"/></Grid.ColumnDefinitions>
+            <StackPanel><TextBlock Text="文字，即刻可用。" FontSize="29" FontWeight="Bold"/><TextBlock Text="从屏幕到文本，再到你熟悉的语言。" Style="{StaticResource Muted}" Margin="1,9,0,0" FontSize="13"/></StackPanel>
+            <StackPanel Grid.Column="1" Orientation="Horizontal" VerticalAlignment="Center" IsEnabled="{Binding CanInteract}">
+              <Button Click="ImportButton_Click" Margin="0,0,10,0" ToolTip="导入图片，也可直接拖入窗口"><StackPanel Orientation="Horizontal"><TextBlock Style="{StaticResource Icon}" Text="&#xE8B7;" FontSize="16" Margin="0,0,8,0"/><TextBlock Text="导入图片"/></StackPanel></Button>
+              <Button Style="{StaticResource Primary}" Click="CaptureButton_Click"><StackPanel Orientation="Horizontal"><TextBlock Style="{StaticResource Icon}" Text="&#xE7C5;" FontSize="17" Margin="0,0,8,0"/><TextBlock Text="框选截图"/></StackPanel></Button>
+            </StackPanel>
+          </Grid>
+          <Border Grid.Row="1" Background="#ECF1F9" CornerRadius="12" Padding="17,12" Margin="0,0,0,22"><DockPanel>
+            <StackPanel DockPanel.Dock="Right" Orientation="Horizontal"><TextBlock FontSize="11" Foreground="#487AAF" Margin="0,0,16,0" MaxWidth="140" TextTrimming="CharacterEllipsis"><Run Text="目标 · "/><Run Text="{Binding TargetLanguage}"/></TextBlock><TextBlock Text="{Binding HotkeyLabel}" FontFamily="Consolas" FontSize="12" Foreground="#74859E"/></StackPanel>
+            <StackPanel Orientation="Horizontal"><TextBlock Text="01  截取画面" FontSize="12" Foreground="#487AAF"/><TextBlock Text="›" Margin="19,0" Foreground="#B0BBCC"/><TextBlock Text="02  本地识别" FontSize="12" Foreground="#74859E"/><TextBlock Text="›" Margin="19,0" Foreground="#B0BBCC"/><TextBlock Text="03  复制或翻译" FontSize="12" Foreground="#74859E"/></StackPanel>
+          </DockPanel></Border>
+          <local:ResultView x:Name="Results" Grid.Row="2" TranslateRequested="TranslateButton_Click" CopyRequested="CopyResult_Click" ExportRequested="ExportResult_Click" PasteRequested="PasteButton_Click" RetryRequested="RetryButton_Click"/>
+        </Grid>
+        <ContentControl x:Name="ApiSettingsHost" Visibility="Collapsed" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch"/>
+        <ContentControl x:Name="SettingsHost" Visibility="Collapsed" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch"/>
+        <ScrollViewer x:Name="ModelPage" Visibility="Collapsed" VerticalScrollBarVisibility="Auto"><StackPanel>
+          <TextBlock Text="让识别，留在本地。" FontSize="29" FontWeight="Bold"/><TextBlock Text="管理小米 OCR 模型，连接你的离线文字引擎。" Style="{StaticResource Muted}" FontSize="13" Margin="0,9,0,27"/>
+          <Border Style="{StaticResource Card}" Margin="0,0,0,18"><StackPanel>
+            <DockPanel Margin="0,0,0,23"><Border DockPanel.Dock="Left" Background="#FFF0E5" Width="54" Height="54" CornerRadius="16" Margin="0,0,16,0"><TextBlock Text="mi" FontWeight="Bold" FontSize="25" Foreground="#FF7A27" HorizontalAlignment="Center"/></Border><StackPanel><TextBlock Text="Xiaomi OCR 0" FontSize="21" FontWeight="SemiBold"/><TextBlock Text="本地多模态文字识别 · BF16" Style="{StaticResource Muted}" Margin="0,5,0,0"/></StackPanel></DockPanel>
+            <Border Background="#F6F8FC" CornerRadius="12" Padding="18"><StackPanel><TextBlock Text="{Binding RuntimeStatus}" FontWeight="SemiBold"/><TextBlock Text="{Binding RuntimeDetail}" Style="{StaticResource Muted}" Margin="0,8,0,0" LineHeight="20"/></StackPanel></Border>
+            <TextBlock Text="模型与运行时目录" Style="{StaticResource Muted}" Margin="0,20,0,8"/><TextBlock Text="{Binding RuntimePath}" TextWrapping="Wrap" FontSize="12"/>
+            <WrapPanel Margin="0,22,0,0" IsEnabled="{Binding CanInteract}"><Button Content="检测并启动" Style="{StaticResource Primary}" Click="InitializeRuntime_Click" Margin="0,0,10,8"/><Button Content="关闭 OCR 模型" Click="StopRuntime_Click" Margin="0,0,10,8"/><Button Content="选择离线模型目录" Click="ChooseRuntime_Click" Margin="0,0,0,8"/><Button Content="刷新状态" Style="{StaticResource Quiet}" Click="RefreshRuntime_Click" Margin="8,0,0,8"/></WrapPanel>
+            <TextBlock Text="彻底退出软件时自动卸载模型并关闭本软件启动的服务；下次截图时自动重新启动。" Style="{StaticResource Muted}" Margin="0,12,0,0"/>
+          </StackPanel></Border>
+          <Border Style="{StaticResource Card}"><StackPanel><TextBlock Text="新电脑，三步就绪" FontSize="16" FontWeight="SemiBold" Margin="0,0,0,18"/><TextBlock Text="01   将模型包中的 OcrRuntime 放到 Translate.exe 旁。" Margin="0,0,0,14" FontSize="13"/><TextBlock Text="02   点击「检测并启动」，自动连接本地识别服务。" Margin="0,0,0,14" FontSize="13"/><TextBlock Text="03   按下截图快捷键，开始提取文字。" FontSize="13"/><TextBlock Text="已有模型？选择包含 runtime 和 models 的目录即可复用，无需重复下载。" Style="{StaticResource Muted}" Margin="0,20,0,0"/></StackPanel></Border>
+        </StackPanel></ScrollViewer>
+        <Border x:Name="WorkspaceStatusFooter" Visibility="Collapsed" Grid.Row="1" Background="White" BorderBrush="{StaticResource Line}" BorderThickness="1" CornerRadius="14" Padding="18,14" Margin="0,18,0,0"><Grid>
+          <Grid.ColumnDefinitions><ColumnDefinition Width="Auto"/><ColumnDefinition Width="*"/><ColumnDefinition Width="Auto"/></Grid.ColumnDefinitions>
+          <Border Width="32" Height="32" Background="#EDF4FF" CornerRadius="10" Margin="0,0,13,0"><TextBlock Style="{StaticResource Icon}" Text="{Binding StatusGlyph}" Foreground="{StaticResource Accent}" FontSize="16"/></Border>
+          <StackPanel Grid.Column="1" VerticalAlignment="Center"><TextBlock Text="{Binding StatusText}" FontSize="12" TextWrapping="Wrap"/><ProgressBar Height="3" Margin="0,9,15,0" Foreground="{StaticResource Accent}" Background="#EAF0F9" IsIndeterminate="True" Visibility="{Binding BusyVisibility}"/></StackPanel>
+          <StackPanel Grid.Column="2" Orientation="Horizontal" VerticalAlignment="Center" Margin="12,0,0,0"><TextBlock Text="{Binding ElapsedLabel}" FontSize="11" Foreground="{StaticResource Secondary}"/><Button Content="取消" Click="CancelOperation_Click" Style="{StaticResource Quiet}" Margin="8,0,0,0" Visibility="{Binding BusyVisibility}"/></StackPanel>
+        </Grid></Border>
+      </Grid>
+    </Grid>
+  </Grid></Border>
+</Window>

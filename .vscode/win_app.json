@@ -1,10 +1,10 @@
 {
-  "name": "Mi OCR Desk",
-  "project": "${workspaceFolder}/MiOcrDesk/MiOcrDesk.csproj",
+  "name": "Translate",
+  "project": "${workspaceFolder}/Translate/Translate.csproj",
   "framework": "net10.0-windows",
   "configuration": "Debug",
   "runtime": "win-x64",
   "ocrRuntime": "${workspaceFolder}/OcrRuntime",
-  "publishFolder": "${workspaceFolder}/dist/bundle",
-  "installerScript": "${workspaceFolder}/installer/MiOcrDesk.iss"
+  "publishFolder": "${workspaceFolder}/dist/Translate-0.4.1",
+  "installerScript": "${workspaceFolder}/installer/Translate.iss"
 }

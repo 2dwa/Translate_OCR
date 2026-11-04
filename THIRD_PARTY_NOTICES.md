@@ -1,6 +1,6 @@
 # Third-party notices / 第三方声明
 
-The Apache-2.0 license of **Mi OCR Desk**, attributed to **GPT-6 ASTRA**, applies to this project's original desktop code and documentation. It does not replace the licenses of models, runtimes or dependencies. 本项目署名及许可证不替代任何第三方原作者署名和许可。
+The Apache-2.0 license of **Translate**, attributed to **GPT-6 ASTRA**, applies to this project's original desktop code and documentation. It does not replace the licenses of models, runtimes or dependencies. 本项目署名及许可证不替代任何第三方原作者署名和许可。
 
 ## Model provenance / 模型出处
 

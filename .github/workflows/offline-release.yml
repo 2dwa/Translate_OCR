@@ -6,9 +6,9 @@ on:
   workflow_dispatch:
     inputs:
       release_tag:
-        description: Existing published release tag (for example v0.3.3)
+        description: Existing published release tag (for example v0.4.1)
         required: true
-        default: v0.3.3
+        default: v0.4.1
 
 permissions:
   contents: read
@@ -40,33 +40,33 @@ jobs:
             $tag = $Matches[1]
           }
           if ($tag -notmatch '^v\d+\.\d+\.\d+$') { throw 'Invalid release tag.' }
-          [xml] $project = Get-Content MiOcrDesk/MiOcrDesk.csproj -Raw
+          [xml] $project = Get-Content Translate/Translate.csproj -Raw
           if ($tag -ne "v$($project.Project.PropertyGroup.Version)") { throw 'Project/release version mismatch.' }
           $release = gh release view $tag --json isDraft,isPrerelease | ConvertFrom-Json
           if ($LASTEXITCODE -ne 0 -or $release.isDraft) { throw 'A published portable release is required.' }
           "RELEASE_TAG=$tag" >> $env:GITHUB_ENV
           "RELEASE_VERSION=$($tag.Substring(1))" >> $env:GITHUB_ENV
-          gh release download $tag --pattern "MiOCRDesk-$($tag.Substring(1))-win-x64-portable.zip" --pattern SHA256SUMS.txt --dir .cache/portable
+          gh release download $tag --pattern "Translate-$($tag.Substring(1))-win-x64-portable.zip" --pattern SHA256SUMS.txt --dir .cache/portable
           if ($LASTEXITCODE -ne 0) { throw 'Portable release download failed.' }
       - name: Download pinned runtime and model with SHA256 verification
         shell: pwsh
         run: ./tools/install-ocr-runtime.ps1 -Destination .cache/offline-source
       - name: Package software and model as separate ZIPs
         shell: pwsh
-        run: ./tools/build-offline-release.ps1 -PortableZip ".cache/portable/MiOCRDesk-$env:RELEASE_VERSION-win-x64-portable.zip" -PortableChecksums .cache/portable/SHA256SUMS.txt -RuntimeRoot .cache/offline-source
+        run: ./tools/build-offline-release.ps1 -PortableZip ".cache/portable/Translate-$env:RELEASE_VERSION-win-x64-portable.zip" -PortableChecksums .cache/portable/SHA256SUMS.txt -RuntimeRoot .cache/offline-source
       - name: Extract both packages and test actual model on CPU
         shell: pwsh
         run: |
           $ErrorActionPreference = 'Stop'
           Add-Type -AssemblyName System.IO.Compression.FileSystem
-          [IO.Compression.ZipFile]::ExtractToDirectory("$PWD/dist/releases/MiOCRDesk-$env:RELEASE_VERSION-win-x64-app.zip", "$PWD/.cache/offline-check")
-          [IO.Compression.ZipFile]::ExtractToDirectory("$PWD/dist/releases/MiOCRDesk-$env:RELEASE_VERSION-win-x64-models.zip", "$PWD/.cache/offline-check")
+          [IO.Compression.ZipFile]::ExtractToDirectory("$PWD/dist/releases/Translate-$env:RELEASE_VERSION-win-x64-app.zip", "$PWD/.cache/offline-check")
+          [IO.Compression.ZipFile]::ExtractToDirectory("$PWD/dist/releases/Translate-$env:RELEASE_VERSION-win-x64-models.zip", "$PWD/.cache/offline-check")
           ./tools/test-offline-bundle.ps1 -BundleDirectory .cache/offline-check -ForceCpu
       - name: Upload separate software and model packages
         shell: pwsh
         run: |
           $ErrorActionPreference = 'Stop'
-          gh release upload $env:RELEASE_TAG "dist/releases/MiOCRDesk-$env:RELEASE_VERSION-win-x64-app.zip" "dist/releases/MiOCRDesk-$env:RELEASE_VERSION-win-x64-models.zip" dist/releases/SHA256SUMS-OFFLINE.txt
+          gh release upload $env:RELEASE_TAG "dist/releases/Translate-$env:RELEASE_VERSION-win-x64-app.zip" "dist/releases/Translate-$env:RELEASE_VERSION-win-x64-models.zip" dist/releases/SHA256SUMS-OFFLINE.txt
           if ($LASTEXITCODE -ne 0) { throw 'Offline asset upload failed; existing assets are never overwritten.' }
           $release = gh release view $env:RELEASE_TAG --json body | ConvertFrom-Json
           if ($LASTEXITCODE -ne 0) { throw 'Could not read release notes.' }

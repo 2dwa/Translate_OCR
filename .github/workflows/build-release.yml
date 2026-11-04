@@ -63,10 +63,10 @@ jobs:
           if ($LASTEXITCODE -eq 0) {
             if (-not ($existing | ConvertFrom-Json).isDraft) { throw 'Refusing to overwrite a published release.' }
           } else {
-            gh release create $env:RELEASE_TAG --verify-tag --draft --title "Mi OCR Desk $version" --notes-file $notes
+            gh release create $env:RELEASE_TAG --verify-tag --draft --title "Translate $version" --notes-file $notes
             if ($LASTEXITCODE -ne 0) { throw 'Could not create draft release.' }
           }
-          gh release upload $env:RELEASE_TAG "dist/releases/MiOCRDesk-$version-win-x64-portable.zip" 'dist/releases/SHA256SUMS.txt' --clobber
+          gh release upload $env:RELEASE_TAG "dist/releases/Translate-$version-win-x64-portable.zip" 'dist/releases/SHA256SUMS.txt' --clobber
           if ($LASTEXITCODE -ne 0) { throw 'Could not upload release assets.' }
           gh release edit $env:RELEASE_TAG --draft=false --latest
           if ($LASTEXITCODE -ne 0) { throw 'Could not publish release.' }

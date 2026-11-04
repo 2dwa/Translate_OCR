@@ -1,4 +1,0 @@
-<Solution>
-  <Project Path="MiOcrDesk.Tests/MiOcrDesk.Tests.csproj" />
-  <Project Path="MiOcrDesk/MiOcrDesk.csproj" />
-</Solution>

@@ -20,7 +20,7 @@ else {
     if (-not $sdkCommand) { throw '.NET 10 SDK is required. Install it, or extract the SDK to .dotnet.' }
     $dotnetPath = $sdkCommand.Source
 }
-$env:MIOCR_RUNTIME_ROOT = $runtimeRoot
+$env:TRANSLATE_RUNTIME_ROOT = $runtimeRoot
 function Invoke-Dotnet([string[]] $Arguments) {
     & $dotnetPath @Arguments
     if ($LASTEXITCODE -ne 0) { throw "dotnet failed (exit $LASTEXITCODE)." }

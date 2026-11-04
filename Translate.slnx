@@ -1,0 +1,4 @@
+<Solution>
+  <Project Path="Translate.Tests/Translate.Tests.csproj" />
+  <Project Path="Translate/Translate.csproj" />
+</Solution>

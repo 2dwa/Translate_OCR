@@ -7,12 +7,12 @@ param(
 $ErrorActionPreference = 'Stop'
 $repo = Split-Path -Parent $PSScriptRoot
 if (-not $OutputDirectory) { $OutputDirectory = Join-Path $repo 'dist\releases' }
-[xml] $project = Get-Content -LiteralPath (Join-Path $repo 'MiOcrDesk\MiOcrDesk.csproj') -Raw
+[xml] $project = Get-Content -LiteralPath (Join-Path $repo 'Translate\Translate.csproj') -Raw
 $version = [string] $project.Project.PropertyGroup.Version
 if ($version -notmatch '^\d+\.\d+\.\d+$') { throw 'Expected a stable semantic project version.' }
 $PortableZip = (Resolve-Path -LiteralPath $PortableZip).Path
 $RuntimeRoot = (Resolve-Path -LiteralPath $RuntimeRoot).Path
-$expectedName = "MiOCRDesk-$version-win-x64-portable.zip"
+$expectedName = "Translate-$version-win-x64-portable.zip"
 if ([IO.Path]::GetFileName($PortableZip) -ne $expectedName) { throw 'Portable archive version/name does not match the project.' }
 $checksumLine = @(Get-Content -LiteralPath $PortableChecksums | Where-Object { $_ -match ('^[a-fA-F0-9]{64}\s+\*?' + [regex]::Escape($expectedName) + '$') })
 if ($checksumLine.Count -ne 1) { throw 'Expected exactly one portable archive checksum.' }
@@ -26,7 +26,7 @@ $modelStage = Join-Path $stage 'models'
 New-Item -ItemType Directory -Path $appStage, $modelStage, $OutputDirectory -Force | Out-Null
 Add-Type -AssemblyName System.IO.Compression.FileSystem
 [IO.Compression.ZipFile]::ExtractToDirectory($PortableZip, $appStage)
-if (-not (Test-Path -LiteralPath (Join-Path $appStage 'MiOcrDesk.exe'))) { throw 'Missing portable executable.' }
+if (-not (Test-Path -LiteralPath (Join-Path $appStage 'Translate.exe'))) { throw 'Missing portable executable.' }
 & "$PSScriptRoot\copy-package-files.ps1" -Destination $appStage
 Copy-Item -LiteralPath (Join-Path $repo 'docs\OFFLINE.md') -Destination (Join-Path $appStage 'README-OFFLINE.md')
 
@@ -87,10 +87,10 @@ function Write-Inventory([string] $Directory, [string] $Name) {
 Write-Inventory $appStage 'APP-CONTENTS.sha256'
 Write-Inventory $bundle 'MODEL-CONTENTS.sha256'
 if (Test-Path -LiteralPath (Join-Path $appStage 'OcrRuntime')) { throw 'Software archive must not include a runtime or model.' }
-if (Test-Path -LiteralPath (Join-Path $modelStage 'MiOcrDesk.exe')) { throw 'Model archive must not include the desktop application.' }
+if (Test-Path -LiteralPath (Join-Path $modelStage 'Translate.exe')) { throw 'Model archive must not include the desktop application.' }
 $checksums = @()
 foreach ($package in @(@{ Name = 'app'; Directory = $appStage }, @{ Name = 'models'; Directory = $modelStage })) {
-    $archive = Join-Path ([IO.Path]::GetFullPath($OutputDirectory)) "MiOCRDesk-$version-win-x64-$($package.Name).zip"
+    $archive = Join-Path ([IO.Path]::GetFullPath($OutputDirectory)) "Translate-$version-win-x64-$($package.Name).zip"
     if (Test-Path -LiteralPath $archive) { throw "Output already exists; choose a fresh output directory: $archive" }
     Write-Host "Compressing separate $($package.Name) ZIP from $($package.Directory) ..."
     [IO.Compression.ZipFile]::CreateFromDirectory($package.Directory, $archive, [IO.Compression.CompressionLevel]::Optimal, $false)

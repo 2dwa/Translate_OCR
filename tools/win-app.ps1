@@ -11,7 +11,7 @@ try {
         'restore' { Invoke-Dotnet @('restore', $projectPath); break }
         'build' { Invoke-Dotnet @('build', $projectPath, '-c', $configuration, '-f', $winConfig.framework, '-r', $winConfig.runtime); break }
         'run' { Invoke-Dotnet @('run', '--project', $projectPath, '-c', $configuration, '-f', $winConfig.framework, '-r', $winConfig.runtime); break }
-        'test' { Invoke-Dotnet @('run', '--project', (Join-Path $workspaceRoot 'MiOcrDesk.Tests\MiOcrDesk.Tests.csproj')); break }
+        'test' { Invoke-Dotnet @('run', '--project', (Join-Path $workspaceRoot 'Translate.Tests\Translate.Tests.csproj')); break }
         'publish' { & "$PSScriptRoot\publish-bundle.ps1"; break }
         'installer' {
             $localCompiler = Join-Path $workspaceRoot '.tools\InnoSetup\ISCC.exe'
