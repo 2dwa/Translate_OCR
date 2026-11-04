@@ -1,0 +1,15 @@
+{
+  "ollamaVersion": "0.40.14",
+  "ollamaArchiveUrl": "https://github.com/ollama/ollama/releases/download/v0.40.14/ollama-windows-amd64.zip",
+  "ollamaArchiveSha256": "65d68cade6cf6375f398b518224f8c8a15e062387f38cf477abfc848de7e7e29",
+  "model": "longwayxu/xiaomi-ocr-0:bf16",
+  "modelBlobBaseUrl": "https://registry.ollama.ai/v2/longwayxu/xiaomi-ocr-0/blobs/",
+  "modelManifestSha256": "e66e0eaee51ab17ba40a642ccf8f731bfa181a7c647de05020d6a67c26b21e52",
+  "xiaomiSource": "https://github.com/xiaomi-research/Xiaomi-OCR-0",
+  "xiaomiSourceRevision": "b1a9bb4c07060c453785e9151715ccda6b96f0b1",
+  "xiaomiModel": "https://huggingface.co/xiaomi-research/Xiaomi-OCR-0",
+  "xiaomiModelRevision": "bbd8cf8d21f256b3644b44cb860f3a7cecb93c30",
+  "baseModel": "https://huggingface.co/Qwen/Qwen3.5-0.8B",
+  "baseModelRevision": "2fc06364715b967f1860aea9cf38778875588b17",
+  "dotnetRuntimeVersion": "10.0.14"
+}

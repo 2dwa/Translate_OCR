@@ -1,0 +1,43 @@
+{
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "Win App: Test",
+      "type": "shell",
+      "command": "powershell",
+      "args": ["-NoProfile", "-ExecutionPolicy", "Bypass", "-File", "${workspaceFolder}/tools/win-app.ps1", "-Action", "test"],
+      "problemMatcher": "$msCompile",
+      "group": "test"
+    },
+    {
+      "label": "Win App: Build",
+      "type": "shell",
+      "command": "powershell",
+      "args": ["-NoProfile", "-ExecutionPolicy", "Bypass", "-File", "${workspaceFolder}/tools/win-app.ps1", "-Action", "build"],
+      "problemMatcher": "$msCompile",
+      "group": "build"
+    },
+    {
+      "label": "Win App: Run",
+      "type": "shell",
+      "command": "powershell",
+      "args": ["-NoProfile", "-ExecutionPolicy", "Bypass", "-File", "${workspaceFolder}/tools/win-app.ps1", "-Action", "run"],
+      "problemMatcher": "$msCompile",
+      "group": { "kind": "build", "isDefault": true }
+    },
+    {
+      "label": "Win App: Publish bundle",
+      "type": "shell",
+      "command": "powershell",
+      "args": ["-NoProfile", "-ExecutionPolicy", "Bypass", "-File", "${workspaceFolder}/tools/win-app.ps1", "-Action", "publish"],
+      "problemMatcher": "$msCompile"
+    },
+    {
+      "label": "Win App: Build installer",
+      "type": "shell",
+      "command": "powershell",
+      "args": ["-NoProfile", "-ExecutionPolicy", "Bypass", "-File", "${workspaceFolder}/tools/win-app.ps1", "-Action", "installer"],
+      "problemMatcher": "$msCompile"
+    }
+  ]
+}

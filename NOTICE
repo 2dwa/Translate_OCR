@@ -1,0 +1,22 @@
+Mi OCR Desk / MI_OCR
+Project attribution: GPT-6 ASTRA
+Repository: https://github.com/2dwa/MI_OCR
+
+The original desktop application, build scripts and project documentation are
+provided under the Apache License, Version 2.0. This attribution applies to this
+desktop project, not to third-party models, runtimes or libraries.
+
+Xiaomi-OCR-0: Copyright 2026 Xiaomi Corporation. Apache-2.0.
+Upstream: https://github.com/xiaomi-research/Xiaomi-OCR-0
+Model: https://huggingface.co/xiaomi-research/Xiaomi-OCR-0
+Base model Qwen3.5-0.8B: Copyright 2026 Alibaba Cloud. Apache-2.0.
+Ollama distribution: longwayxu/xiaomi-ocr-0:bf16, published by longwayxu.
+The upstream model and packaged weights are not authored by GPT-6 ASTRA.
+
+Ollama: Copyright (c) Ollama. MIT License; bundled dependencies retain their
+own licenses. The setup helper downloads the unmodified upstream Windows ZIP.
+Microsoft .NET runtime, WPF and Windows Forms retain their upstream licenses
+and third-party notices. See THIRD_PARTY_NOTICES.md and licenses/.
+
+This is an independent desktop integration, not an official Xiaomi, Alibaba,
+Ollama or OpenAI application. No endorsement or trademark rights are implied.
