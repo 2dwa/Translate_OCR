@@ -23,7 +23,13 @@ System fonts and Windows icon fonts are referenced from the user's operating sys
 - Preserve original copyright, LICENSE and NOTICE files. Keep `LICENSE`, `NOTICE`, this document and `licenses/` with copies of the application. 保留原有版权和许可文本。
 - Ship original application code under Apache-2.0 and identify modifications in the changelog. Do not relabel third-party model authors as the desktop project author.
 - Model blobs and the Ollama archive are downloaded byte-for-byte from the pinned upstream distribution and checked before installation. No modified upstream model or runtime is published under a new name.
-- GitHub Release contains the desktop program and setup helper; it does not redistribute model weights or GPU runtime libraries. A complete offline bundle made locally includes third-party files, so its original notices and applicable vendor terms must accompany any redistribution.
+- GitHub Release offers two packages: the smaller portable ZIP contains the desktop program and setup helper, while the complete offline ZIP additionally includes the pinned BF16 model, projector and selected Ollama CPU/CUDA 13 runtime files. Optional CUDA 12/Vulkan backends are omitted only for package size; included binaries and model blobs are unmodified. All upstream notices and applicable vendor terms accompany the offline package. 完整离线包包含模型及运行库，保留全部原始版权和许可；小体积便携包不含模型。
 - API keys, DPAPI settings, captures and local caches are excluded from source control and release packaging.
 
 Source URLs, revisions and digests are also recorded in [runtime-sources.json](tools/runtime-sources.json). These notices document the included and downloaded components; no trademark rights or upstream endorsement are claimed.
+
+## Complete offline package dependencies / 完整离线包依赖
+
+The offline ZIP retains `GO_LICENSE`, `LLAMA_CPP_LICENSE`, `LLAMA_CPP_VENDORS_LICENSE` and `CPP_HTTPLIB_LICENSE` in `OcrRuntime/runtime/lib/ollama/`. Supplemental LLVM/libc++/libunwind/OpenMP, winpthreads, NVIDIA CUDA 13 and Microsoft Visual C++ runtime terms are in [licenses/runtime/](licenses/runtime/), with [original source URLs](licenses/runtime/SOURCES.md). NVIDIA CUDA and Microsoft runtime binaries are proprietary dependencies under their respective terms, not Apache-2.0 or Ollama MIT components. The NVIDIA agreement includes the applicable redistribution supplement and third-party notices. No NVIDIA graphics driver is distributed.
+
+The included model is the same unchanged BF16 distribution described above. `OFFLINE-CONTENTS.sha256` identifies the exact packaged files, and `SHA256SUMS-OFFLINE.txt` identifies the complete archive. No user settings, provider credentials, captures, runtime logs or unrelated local models are included.

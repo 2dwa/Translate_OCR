@@ -1,0 +1,78 @@
+name: Supplemental offline release
+
+on:
+  push:
+    tags: ['offline-v*']
+  workflow_dispatch:
+    inputs:
+      release_tag:
+        description: Existing published release tag (for example v0.3.3)
+        required: true
+        default: v0.3.3
+
+permissions:
+  contents: read
+
+concurrency:
+  group: offline-release
+  cancel-in-progress: false
+
+jobs:
+  package:
+    runs-on: windows-latest
+    timeout-minutes: 60
+    permissions:
+      contents: write
+    env:
+      GH_REPO: ${{ github.repository }}
+      GH_TOKEN: ${{ github.token }}
+      REQUESTED_TAG: ${{ inputs.release_tag }}
+      TRIGGER_TAG: ${{ github.ref_name }}
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - name: Download and verify the existing portable release
+        shell: pwsh
+        run: |
+          $ErrorActionPreference = 'Stop'
+          $tag = $env:REQUESTED_TAG
+          if (-not $tag) {
+            if ($env:TRIGGER_TAG -notmatch '^offline-(v\d+\.\d+\.\d+)(-r\d+)?$') { throw 'Invalid offline tag.' }
+            $tag = $Matches[1]
+          }
+          if ($tag -notmatch '^v\d+\.\d+\.\d+$') { throw 'Invalid release tag.' }
+          [xml] $project = Get-Content MiOcrDesk/MiOcrDesk.csproj -Raw
+          if ($tag -ne "v$($project.Project.PropertyGroup.Version)") { throw 'Project/release version mismatch.' }
+          $release = gh release view $tag --json isDraft,isPrerelease | ConvertFrom-Json
+          if ($LASTEXITCODE -ne 0 -or $release.isDraft) { throw 'A published portable release is required.' }
+          "RELEASE_TAG=$tag" >> $env:GITHUB_ENV
+          "RELEASE_VERSION=$($tag.Substring(1))" >> $env:GITHUB_ENV
+          gh release download $tag --pattern "MiOCRDesk-$($tag.Substring(1))-win-x64-portable.zip" --pattern SHA256SUMS.txt --dir .cache/portable
+          if ($LASTEXITCODE -ne 0) { throw 'Portable release download failed.' }
+      - name: Download pinned runtime and model with SHA256 verification
+        shell: pwsh
+        run: ./tools/install-ocr-runtime.ps1 -Destination .cache/offline-source
+      - name: Package complete offline ZIP
+        shell: pwsh
+        run: ./tools/build-offline-release.ps1 -PortableZip ".cache/portable/MiOCRDesk-$env:RELEASE_VERSION-win-x64-portable.zip" -PortableChecksums .cache/portable/SHA256SUMS.txt -RuntimeRoot .cache/offline-source
+      - name: Extract and test actual packaged model on CPU
+        shell: pwsh
+        run: |
+          $ErrorActionPreference = 'Stop'
+          Add-Type -AssemblyName System.IO.Compression.FileSystem
+          [IO.Compression.ZipFile]::ExtractToDirectory("$PWD/dist/releases/MiOCRDesk-$env:RELEASE_VERSION-win-x64-offline.zip", "$PWD/.cache/offline-check")
+          ./tools/test-offline-bundle.ps1 -BundleDirectory .cache/offline-check -ForceCpu
+      - name: Attach offline package and update release notes
+        shell: pwsh
+        run: |
+          $ErrorActionPreference = 'Stop'
+          gh release upload $env:RELEASE_TAG "dist/releases/MiOCRDesk-$env:RELEASE_VERSION-win-x64-offline.zip" dist/releases/SHA256SUMS-OFFLINE.txt
+          if ($LASTEXITCODE -ne 0) { throw 'Offline asset upload failed; existing assets are never overwritten.' }
+          $release = gh release view $env:RELEASE_TAG --json body | ConvertFrom-Json
+          if ($LASTEXITCODE -ne 0) { throw 'Could not read release notes.' }
+          $marker = '<!-- offline-bundle -->'
+          if (-not $release.body.Contains($marker)) {
+            $extra = Get-Content "docs/releases/offline-$env:RELEASE_TAG.md" -Raw
+            [IO.File]::WriteAllText("$PWD/.cache/offline-release-notes.md", "$extra`n`n$($release.body)", [Text.UTF8Encoding]::new($false))
+            gh release edit $env:RELEASE_TAG --notes-file .cache/offline-release-notes.md
+            if ($LASTEXITCODE -ne 0) { throw 'Could not update release notes.' }
+          }

@@ -6,8 +6,8 @@
 .dotnet-sdk.zip
 .venv/
 dist/
-runtime/
-models/
+/runtime/
+/models/
 *.user
 OcrRuntime/
 Xiaomi-OCR-0/
