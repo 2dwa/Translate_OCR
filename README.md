@@ -2,7 +2,7 @@
 
 **English** | [简体中文](README.zh-CN.md)
 
-**Project attribution: GPT-6 ASTRA** · [GitHub](https://github.com/2dwa/MI_OCR) · [Download](https://github.com/2dwa/MI_OCR/releases/latest) · [Apache-2.0](LICENSE)
+**Project attribution: GPT-6 ASTRA** · [GitHub](https://github.com/2dwa/Translate_OCR) · [Download](https://github.com/2dwa/Translate_OCR/releases/latest) · [Apache-2.0](LICENSE)
 
 A Windows desktop OCR and translation app built with .NET 10 and WPF. It uses a light, rounded, iOS-inspired interface and runs Xiaomi OCR locally. Translation connects to the provider you configure.
 
@@ -10,8 +10,8 @@ A Windows desktop OCR and translation app built with .NET 10 and WPF. It uses a 
 
 | Package | Contents | Download |
 | --- | --- | --- |
-| Translate 0.4.1 software, about 72 MB | Desktop app and .NET 10 | [Software ZIP](https://github.com/2dwa/MI_OCR/releases/download/v0.4.1/Translate-0.4.1-win-x64-portable.zip) · [Software SHA256](https://github.com/2dwa/MI_OCR/releases/download/v0.4.1/SHA256SUMS.txt) |
-| Xiaomi OCR model package, about 2.05 GB | Complete BF16 model, projector and Ollama with CPU/CUDA 13 | [Model ZIP](https://github.com/2dwa/MI_OCR/releases/download/v0.3.3/MiOCRDesk-0.3.3-win-x64-models.zip) · [Model SHA256](https://github.com/2dwa/MI_OCR/releases/download/v0.3.3/SHA256SUMS-OFFLINE.txt) |
+| Translate 0.4.1 software, about 72 MB | Desktop app and .NET 10 | [Software ZIP](https://github.com/2dwa/Translate_OCR/releases/download/v0.4.1/Translate-0.4.1-win-x64-portable.zip) · [Software SHA256](https://github.com/2dwa/Translate_OCR/releases/download/v0.4.1/SHA256SUMS.txt) |
+| Xiaomi OCR model package, about 2.05 GB | Complete BF16 model, projector and Ollama with CPU/CUDA 13 | [Model ZIP](https://github.com/2dwa/Translate_OCR/releases/download/v0.3.3/MiOCRDesk-0.3.3-win-x64-models.zip) · [Model SHA256](https://github.com/2dwa/Translate_OCR/releases/download/v0.3.3/SHA256SUMS-OFFLINE.txt) |
 
 1. Extract the software ZIP into a writable folder and run **Translate.exe**. For text translation, configure a provider, API key and model in **API 设置** (API settings).
 2. For screenshot OCR, extract the separate model ZIP into the same folder. `Translate.exe` and `OcrRuntime` should be side by side. An existing model directory can also be selected under **本地模型** (Local model).
@@ -59,7 +59,7 @@ Capture-and-translate is one cancellable operation. Cancelled/failed OCR and emp
 
 | Component | Source / attribution | License and scope |
 | --- | --- | --- |
-| This desktop application | GPT-6 ASTRA · [MI_OCR](https://github.com/2dwa/MI_OCR) | [Apache-2.0](LICENSE) |
+| This desktop application | GPT-6 ASTRA · [Translate_OCR](https://github.com/2dwa/Translate_OCR) | [Apache-2.0](LICENSE) |
 | Original Xiaomi-OCR-0 | Xiaomi Corporation · [source](https://github.com/xiaomi-research/Xiaomi-OCR-0) · [model card](https://huggingface.co/xiaomi-research/Xiaomi-OCR-0) | [Apache-2.0](licenses/Xiaomi-OCR-0-LICENSE.txt); former SeerRay-Lab URLs now redirect to xiaomi-research |
 | Qwen3.5-0.8B base model | Alibaba Cloud / Qwen · [model card](https://huggingface.co/Qwen/Qwen3.5-0.8B) | [Apache-2.0](licenses/Qwen3.5-0.8B-LICENSE.txt) |
 | BF16 package loaded by this app | longwayxu · [Ollama package](https://ollama.com/longwayxu/xiaomi-ocr-0:bf16) | Ollama/GGUF distribution of the above model; package publisher is distinct from original model authors |
@@ -75,8 +75,8 @@ No model weights, upstream demo checkout, Ollama binaries, API keys, user settin
 Install a .NET 10 SDK, clone the repository and open it in VS Code:
 
 ```powershell
-git clone git@github.com:2dwa/MI_OCR.git
-cd MI_OCR
+git clone git@github.com:2dwa/Translate_OCR.git
+cd Translate_OCR
 powershell -NoProfile -ExecutionPolicy Bypass -File tools/win-app.ps1 -Action build
 powershell -NoProfile -ExecutionPolicy Bypass -File tools/win-app.ps1 -Action test
 powershell -NoProfile -ExecutionPolicy Bypass -File tools/win-app.ps1 -Action run

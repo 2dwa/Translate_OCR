@@ -2,7 +2,7 @@
 
 [English](README.md) | **简体中文**
 
-**项目署名：GPT-6 ASTRA** · [GitHub](https://github.com/2dwa/MI_OCR) · [下载 Release](https://github.com/2dwa/MI_OCR/releases/latest) · [Apache-2.0](LICENSE)
+**项目署名：GPT-6 ASTRA** · [GitHub](https://github.com/2dwa/Translate_OCR) · [下载 Release](https://github.com/2dwa/Translate_OCR/releases/latest) · [Apache-2.0](LICENSE)
 
 Windows 本地截图识别与翻译工作台。界面采用浅色、圆角卡片、系统蓝、分段切换和分组设置的类 iOS 风格，使用 .NET 10 + WPF 原生桌面技术。
 
@@ -10,8 +10,8 @@ Windows 本地截图识别与翻译工作台。界面采用浅色、圆角卡片
 
 | 下载包 | 内容 | 下载入口 |
 | --- | --- | --- |
-| Translate 0.4.1 软件，约 72 MB | 桌面程序与 .NET 10 | [软件 ZIP](https://github.com/2dwa/MI_OCR/releases/download/v0.4.1/Translate-0.4.1-win-x64-portable.zip) · [软件 SHA256](https://github.com/2dwa/MI_OCR/releases/download/v0.4.1/SHA256SUMS.txt) |
-| Xiaomi OCR 模型，约 2.05 GB | 完整 BF16 权重、投影器及 CPU/CUDA 13 运行时 | [模型 ZIP](https://github.com/2dwa/MI_OCR/releases/download/v0.3.3/MiOCRDesk-0.3.3-win-x64-models.zip) · [模型 SHA256](https://github.com/2dwa/MI_OCR/releases/download/v0.3.3/SHA256SUMS-OFFLINE.txt) |
+| Translate 0.4.1 软件，约 72 MB | 桌面程序与 .NET 10 | [软件 ZIP](https://github.com/2dwa/Translate_OCR/releases/download/v0.4.1/Translate-0.4.1-win-x64-portable.zip) · [软件 SHA256](https://github.com/2dwa/Translate_OCR/releases/download/v0.4.1/SHA256SUMS.txt) |
+| Xiaomi OCR 模型，约 2.05 GB | 完整 BF16 权重、投影器及 CPU/CUDA 13 运行时 | [模型 ZIP](https://github.com/2dwa/Translate_OCR/releases/download/v0.3.3/MiOCRDesk-0.3.3-win-x64-models.zip) · [模型 SHA256](https://github.com/2dwa/Translate_OCR/releases/download/v0.3.3/SHA256SUMS-OFFLINE.txt) |
 
 1. 将软件 ZIP 解压到可写目录，运行 **Translate.exe**。使用文字翻译时，在「API 设置」填写供应商、API Key 并选择模型即可。
 2. 使用截图 OCR 时，再将独立模型 ZIP 解压到同一目录，使 `Translate.exe` 与 `OcrRuntime` 并排。已有模型可在「本地模型」中关联目录。
@@ -49,7 +49,7 @@ Windows 本地截图识别与翻译工作台。界面采用浅色、圆角卡片
 
 | 组件 | 来源 / 署名 | 许可证与说明 |
 | --- | --- | --- |
-| 本桌面项目 | GPT-6 ASTRA · [MI_OCR](https://github.com/2dwa/MI_OCR) | [Apache-2.0](LICENSE) |
+| 本桌面项目 | GPT-6 ASTRA · [Translate_OCR](https://github.com/2dwa/Translate_OCR) | [Apache-2.0](LICENSE) |
 | Xiaomi-OCR-0 原始模型 | Xiaomi Corporation · [GitHub](https://github.com/xiaomi-research/Xiaomi-OCR-0) · [Hugging Face](https://huggingface.co/xiaomi-research/Xiaomi-OCR-0) | [Apache-2.0](licenses/Xiaomi-OCR-0-LICENSE.txt)；旧地址 SeerRay-Lab 已重定向至 xiaomi-research |
 | Qwen3.5-0.8B 底座 | Alibaba Cloud / Qwen · [模型页](https://huggingface.co/Qwen/Qwen3.5-0.8B) | [Apache-2.0](licenses/Qwen3.5-0.8B-LICENSE.txt) |
 | 实际加载的 BF16 包 | longwayxu · [Ollama 模型页](https://ollama.com/longwayxu/xiaomi-ocr-0:bf16) | 上述模型的 Ollama / GGUF 分发格式；不将打包者标为原模型作者 |

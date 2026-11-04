@@ -11,7 +11,7 @@
     <Version>0.4.1</Version>
     <Authors>GPT-6 ASTRA</Authors>
     <PackageLicenseExpression>Apache-2.0</PackageLicenseExpression>
-    <RepositoryUrl>https://github.com/2dwa/MI_OCR</RepositoryUrl>
+    <RepositoryUrl>https://github.com/2dwa/Translate_OCR</RepositoryUrl>
     <RepositoryType>git</RepositoryType>
     <RuntimeFrameworkVersion>10.0.14</RuntimeFrameworkVersion>
     <Product>Translate</Product>
